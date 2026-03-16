@@ -1,12 +1,14 @@
 import Stripe from "stripe";
 
+console.log("Stripe key:", process.env.STRIPE_SECRET_KEY);
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const createCheckout = async (req, res) => {
     try {
 
         const session = await stripe.checkout.sessions.create({
-            paymento_method_types: ["card"],
+            payment_method_types: ["card"],
             mode: "payment",
             line_items: [
                 {

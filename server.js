@@ -1,10 +1,10 @@
+import "dotenv/config";
 import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-dotenv.config();
+import cors from "cors"; 
 import pagamentoRoutes from "./src/modules/pagamentos/pagamentoRoutes.js";
 
-console.log("STRIPE:", process.env.STRIPE_SECRET_KEY);
+
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 
@@ -13,6 +13,6 @@ app.use(express.json());
 
 app.use(pagamentoRoutes);
 
-app.listen(process.env.PORT, () => {
-    console.log("Servidor rodando ", process.env.PORT)
+app.listen(PORT, () => {
+    console.log("Servidor rodando ", PORT)
 });

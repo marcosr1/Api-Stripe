@@ -3,6 +3,6 @@ import { createCheckout } from "./pagamentoController.js";
 
 const router = Router();
 
-router.post("/checkout", createCheckout);
+router.get("/checkout", createCheckout);
 
 export default router;
