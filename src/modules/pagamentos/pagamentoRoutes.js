@@ -1,8 +1,9 @@
 import {Router} from "express";
-import { createCheckout } from "./pagamentoController.js";
+import { createCheckout, createPixPagamnto } from "./pagamentoController.js";
 
 const router = Router();
 
 router.get("/checkout", createCheckout);
+router.get("/pix", createPixPagamnto);
 
 export default router;
