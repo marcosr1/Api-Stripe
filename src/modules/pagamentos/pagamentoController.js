@@ -1,61 +1,13 @@
-import Stripe from "stripe";
+import { createPagamento } from "../services/pagamentoService.js";
 
-console.log("Stripe key:", process.env.STRIPE_SECRET_KEY);
+export const create = async (req, res) => {
+    try { 
+        const { amount, method } = req.body;
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+        const payment = await createPagamento({ amount, method });
 
-export const createCheckout = async (req, res) => {
-    try {
-
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ["card"],
-            mode: "payment",
-            line_items: [
-                {
-                    price_data: {
-                        currency: "brl",
-                        product_data: {
-                            name: "Produtos Teste"
-                        },
-                        unit_amount: 5000
-                    },
-                    quantity: 1
-                }
-            ],
-            success_url: "http://localhost:3000/success",
-            cancel_url: "http://localhost:3000/cancel"
-        });
-
-        res.json({ url: session.url });
-    } catch ( error ) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-export const createPixPagamnto = async (req, res) => {
-    try {
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ["pix"],
-            mode: "payment",
-            line_items: [
-                {
-                    price_data: {
-                        currency: "brl",
-                        product_data: {
-                            name: "Produto Teste Pix"
-                        },
-                        unit_amount: 50000,
-                    },
-                    quantity: 1
-                }
-            ],
-
-            success_url: "http://localhost:3000/success",
-            cancel_url: "http://localhost:3000/cancel"
-        });
-
-        res.json({ url: session.url })
+        res.json(payment);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(400).json({ error: error.message });
     }
 };
